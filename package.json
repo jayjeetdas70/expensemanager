@@ -5,11 +5,13 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "nodemon server.js",
+    "start:prod": "set NODE_ENV=production && nodemon server.js"
   },
   "author": "Jayjeet Das",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "mongoose": "^5.13.8",
     "nodemon": "^2.0.12"

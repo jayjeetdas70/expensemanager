@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //Some changes
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
@@ -29,3 +30,8 @@ const port = process.env.port;
 const server = app.listen(port, () => {
   console.log(`App running on port ${port}......`);
 });
+=======
+// //Some changes
+// fmkefke
+//changes made by anshu
+>>>>>>> ba02dc022b32ff4d6b4a1889216990eebdef2283

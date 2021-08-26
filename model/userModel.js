@@ -45,6 +45,24 @@ const userSchema = new mongoose.Schema({
   passwordChangedAt: Date,
 });
 
+//HASHing the password with costing of 12
+userSchema.pre("save", async function (next) {
+  //Runs if password is changed
+  if (!this.isModified("password")) return next();
+  //HASHing the password with costing of 12
+  this.password = await bcrypt.hash(this.password, 12);
+  //Delete the confirmPassword
+  this.confirmPassword = undefined;
+  next();
+});
+
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password") || this.isNew) return next();
+
+  this.passwordChangedAt = Date.now() - 1000;
+  next();
+});
+
 userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword

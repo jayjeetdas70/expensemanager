@@ -3,7 +3,7 @@ const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controller/errorController");
 
 const expenseRouter = require("./routes/expenseRoutes");
-
+const userRouter = require("./routes/userRoutes");
 const app = express();
 
 console.log(`you are in ${process.env.NODE_ENV} mode`);
@@ -12,6 +12,7 @@ console.log(`you are in ${process.env.NODE_ENV} mode`);
 app.use(express.json());
 
 app.use("/api/v1/expenses", expenseRouter);
+app.use("/api/v1/user", userRouter);
 
 //Handling unhandled routes
 

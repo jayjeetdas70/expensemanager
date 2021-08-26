@@ -6,7 +6,7 @@ const expenseSchema = new mongoose.Schema({
     required: [true, "An expense must have a name"],
     unique: true,
     trim: true,
-    minlength: [8, "An Expense must have more or equal than 8 characters"],
+    minlength: [8, "An Expense must have more than or equal to 8 characters"],
   },
   description: {
     type: String,

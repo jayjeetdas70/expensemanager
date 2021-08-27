@@ -1,11 +1,9 @@
 const jwt = require("jsonwebtoken");
-
 const User = require("../model/userModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 const crypto = require("crypto");
 const express = require("express");
-const app = express();
 
 const signToken = (id) => {
   return jwt.sign({ id: id }, process.env.JWT_SECRET, {
@@ -24,6 +22,7 @@ const createSendToken = (user, statusCode, res) => {
     },
   });
 };
+
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create(req.body);
 
@@ -66,6 +65,7 @@ exports.protect = catchAsync(async (req, res, next) => {
       new AppError("You are not logged in! Please log in to get access", 401)
     );
   }
+
   //2) Verification Of Token
   const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
   //console.log(decode);
@@ -85,4 +85,55 @@ exports.protect = catchAsync(async (req, res, next) => {
   req.user = freshUser;
   // console.log(req.user)
   next();
+});
+
+//Check wheather the person is applicable to perform this task or not
+exports.restrictTo = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new AppError("You don't have permission to perform this action", 403)
+      );
+    }
+    next();
+  };
+};
+
+exports.forgotPassword = catchAsync(async (req, res, next) => {
+  //1)Get the user based on posted Email
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user) {
+    return next(new AppError("There is no user with this email", 404));
+  }
+  //2)Generate the random reset token --instance method
+  const resetToken = user.createPasswordResetToken();
+  await user.save({ validateBeforeSave: false }); //Saving the reset token and expire in database
+
+  const resetURL = `${req.protocol}://${req.get(
+    "host"
+  )}/api/v1/user/resetPassword/${resetToken}`;
+
+  console.log(resetURL);
+
+  //3)send it to user's email-Node mailer
+  try {
+    await new Email(user, resetURL).sendResetEmail();
+    res.status(200).json({
+      status: "success",
+      message: "Token sent to email",
+    });
+  } catch (err) {
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save({ validateBeforeSave: false });
+    return next(
+      new AppError(
+        "There was an error sending the email,please try again later",
+        500
+      )
+    );
+  }
+
+  //4)useremail id and resetURL - design a class
 });

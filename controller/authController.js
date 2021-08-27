@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../model/userModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
-const crypto = require("crypto");
+
 const express = require("express");
 
 const signToken = (id) => {

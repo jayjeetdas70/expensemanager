@@ -56,13 +56,14 @@ userSchema.pre("save", async function (next) {
   this.confirmPassword = undefined; //delete the confirmPassword field
   next();
 });
+
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password") || this.isNew) return next();
-  //console.log(this.isNew);
 
   this.passwordChangedAt = Date.now() - 1000;
   next();
 });
+
 userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword

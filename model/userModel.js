@@ -56,6 +56,7 @@ userSchema.pre("save", async function (next) {
   this.confirmPassword = undefined; //delete the confirmPassword field
   next();
 });
+1;
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password") || this.isNew) return next();

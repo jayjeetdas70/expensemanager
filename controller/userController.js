@@ -41,6 +41,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   });
 });
 
+//delete user
 exports.deleteMe = catchAsync(async (req, res, next) => {
   await User.findByIdAndDelete(req.user.id, { active: false });
 

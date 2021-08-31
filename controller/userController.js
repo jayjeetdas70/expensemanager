@@ -51,3 +51,39 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
     data: null,
   });
 });
+
+exports.createUser = catchAsync(async (req, res, next) => {
+  const users = await User.create(req.body);
+
+  res.status(201).json({
+    status: "success",
+    data: {
+      users,
+    },
+  });
+});
+
+exports.getAllUser = catchAsync(async (req, res, next) => {
+  const allUser = await User.find();
+  res.status(200).json({
+    status: "success",
+    result: allUser.length,
+    data: {
+      allUser,
+    },
+  });
+});
+
+exports.getUserById = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    return next(new AppError("No item found with this ID", 404));
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      user,
+    },
+  });
+});

@@ -32,9 +32,9 @@ module.exports = class Email {
     };
     if (process.env.NODE_ENV === "development") {
       // Send by mailgun
-      // this.CreateNewTransport();
-      // await this.CreateNewTransport().sendMail(mailOptions);
-      await sgMail.send(mailOptions);
+      this.CreateNewTransport();
+      await this.CreateNewTransport().sendMail(mailOptions);
+      // await sgMail.send(mailOptions);
     }
   }
 

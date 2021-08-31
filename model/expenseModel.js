@@ -13,6 +13,10 @@ const expenseSchema = new mongoose.Schema({
     required: [true, "An expense must have a name"],
     trim: true,
   },
+  amount: {
+    type: Number,
+    required: [true, "Please provide the expense amount"],
+  },
   date: {
     type: Date,
     required: [true, "Expense must have a day"],

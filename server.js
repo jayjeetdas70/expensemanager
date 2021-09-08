@@ -29,10 +29,3 @@ const port = process.env.port;
 const server = app.listen(port, () => {
   console.log(`App running on port ${port}......`);
 });
-<<<<<<< HEAD
-
-// //Some changes
-// fmkefke
-//changes made by anshu
-=======
->>>>>>> 61b49750ddb5fa72faa82fc68574218d7343849f

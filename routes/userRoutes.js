@@ -12,7 +12,13 @@ router
   .post(userController.createUser)
   .get(userController.getAllUser);
 
-router.patch("/updateMe", authController.protect, userController.updateMe);
+router.patch(
+  "/updateMe",
+  authController.protect,
+  userController.upload.single("photo"),
+  userController.resizeUserPhoto,
+  userController.updateMe
+);
 router.patch("/deleteMe", authController.protect, userController.deleteMe);
 
 router.get("/:id", userController.getUserById);

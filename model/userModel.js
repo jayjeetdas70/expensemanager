@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
     trim: true,
     minlength: [4, "An user must have more than or equal to 4 characters"],
   },
+
   email: {
     type: String,
     required: [true, "An user must have an email"],
@@ -17,12 +18,17 @@ const userSchema = new mongoose.Schema({
     unique: true,
     validate: [validator.isEmail, "Please provide a valid Email"],
   },
+  photo: {
+    type: String,
+    default: "default.jpg",
+  },
   password: {
     type: String,
     required: [true, "An user must have a password"],
     minlength: 8,
     select: false,
   },
+
   confirmPassword: {
     type: String,
     required: true,

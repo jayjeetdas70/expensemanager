@@ -1,6 +1,8 @@
 const User = require("../model/userModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
+const multer = require("multer");
+const sharp = require("sharp");
 
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
@@ -10,6 +12,33 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
+const multerStorage = multer.memoryStorage();
+
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith("image")) {
+    cb(null, true);
+  } else {
+    cb(new AppError("Not an Image! Please upload only images", 400), false);
+  }
+};
+
+exports.upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter,
+});
+
+exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
+  if (!req.file) next();
+  req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
+
+  await sharp(req.file.buffer)
+    .resize(500, 500)
+    .toFormat("jpeg")
+    .jpeg({ quality: 90 })
+    .toFile(`client/images/${req.file.filename}`);
+
+  next();
+});
 exports.updateMe = catchAsync(async (req, res, next) => {
   //1)Create error if user attempt to change password
 

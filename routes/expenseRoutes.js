@@ -1,12 +1,13 @@
 const express = require("express");
 
 const expenseController = require("./../controller/expenseController");
+const authController = require("./../controller/authController");
 
 const router = express.Router();
 
 router
   .route("/")
-  .post(expenseController.createExpense)
+  .post(authController.protect, expenseController.createExpense)
   .get(expenseController.getAllExpenses);
 
 router

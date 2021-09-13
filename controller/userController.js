@@ -75,7 +75,7 @@ exports.getAllUser = catchAsync(async (req, res, next) => {
 });
 
 exports.getUserById = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.params.id);
+  const user = await User.findById(req.params.id).populate("expenses");
   if (!user) {
     return next(new AppError("No item found with this ID", 404));
   }

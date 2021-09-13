@@ -3,8 +3,7 @@ const User = require("../model/userModel");
 const { promisify } = require("util");
 
 const AppError = require("../utils/appError");
-<<<<<<< HEAD
-=======
+
 const catchAsync = require("../utils/catchAsync");
 const Email = require("../utils/email");
 
@@ -88,12 +87,9 @@ exports.protect = catchAsync(async (req, res, next) => {
     );
   }
   req.user = freshUser;
-  // console.log(req.user)
+  console.log(req.user);
   next();
 });
-<<<<<<< HEAD
->>>>>>> 61b49750ddb5fa72faa82fc68574218d7343849f
-=======
 
 //Check wheather the person is applicable to perform this task or not
 exports.restrictTo = (...roles) => {
@@ -175,4 +171,3 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   //4)Log the user in
   createSendToken(user, 200, res);
 });
->>>>>>> 24beabeb37991ad21164dd7016857f712e7e61bd

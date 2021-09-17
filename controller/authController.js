@@ -3,6 +3,7 @@ const User = require("../model/userModel");
 const { promisify } = require("util");
 
 const AppError = require("../utils/appError");
+
 const catchAsync = require("../utils/catchAsync");
 const Email = require("../utils/email");
 
@@ -86,7 +87,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     );
   }
   req.user = freshUser;
-  // console.log(req.user)
+  console.log(req.user);
   next();
 });
 
